@@ -15,7 +15,7 @@ IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
 # Remove any rc suffix from PATCH if it exists
 PATCH_NUM=$(echo $PATCH | sed 's/-rc[0-9]*//')
 
-if [ "$BRANCH" = "master" ]; then
+if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "main" ]; then
     # On main branch - bump patch version
     if [[ $PATCH == *"-rc"* ]]; then
         NEW_VERSION="$MAJOR.$MINOR.$PATCH_NUM"
@@ -43,7 +43,6 @@ fi
 sed -i '' "s/^version = \".*\"/version = \"$NEW_VERSION\"/" pyproject.toml
 
 echo "Version bumped from $CURRENT_VERSION to $NEW_VERSION"
-
 # Stage the changed file
 git add pyproject.toml
 
