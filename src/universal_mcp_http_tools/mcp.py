@@ -11,6 +11,6 @@ mcp = SingleMCPServer(
 
 if __name__ == "__main__":
     print(f"Starting {mcp.name}...")
-    mcp.run()
+    mcp.run(transport="sse")
 
 
