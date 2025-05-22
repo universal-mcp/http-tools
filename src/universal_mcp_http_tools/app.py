@@ -1,5 +1,4 @@
 from universal_mcp.applications import APIApplication
-from universal_mcp.integrations import Integration
 import httpx
 
 class HttpToolsApp(APIApplication):
@@ -7,15 +6,14 @@ class HttpToolsApp(APIApplication):
     Base class for Universal MCP Applications.
     """
 
-    def __init__(self, integration: Integration = None, **kwargs) -> None:
+    def __init__(self, **kwargs) -> None:
         """
         Initialize the HttpToolsApp.
 
         Args:
-            integration (Integration, optional): Integration instance to use. Example: Integration().
             **kwargs: Additional keyword arguments for the parent APIApplication.
         """
-        super().__init__(name="http-tools", integration=integration, **kwargs)
+        super().__init__(name="http-tools", **kwargs)
 
     def http_get(self, url: str, headers: dict = None, query_params: dict = None):
         """
@@ -28,6 +26,8 @@ class HttpToolsApp(APIApplication):
 
         Returns:
             dict: The JSON response from the GET request.
+        Tags:
+            get, important
         """
         response = httpx.get(url, params=query_params, headers=headers)
         return response.json()
@@ -43,6 +43,8 @@ class HttpToolsApp(APIApplication):
 
         Returns:
             dict: The JSON response from the POST request.
+        Tags:
+            post, important
         """
         response = httpx.post(url, json=body, headers=headers)
         return response.json()
@@ -58,6 +60,8 @@ class HttpToolsApp(APIApplication):
 
         Returns:
             dict: The JSON response from the PUT request.
+        Tags:
+            put, important
         """
         response = httpx.put(url, json=body, headers=headers)
         return response.json()
@@ -73,6 +77,8 @@ class HttpToolsApp(APIApplication):
 
         Returns:
             dict: The JSON response from the DELETE request.
+        Tags:
+            delete, important
         """
         response = httpx.delete(url, json=body, headers=headers)
         return response.json()
@@ -88,6 +94,8 @@ class HttpToolsApp(APIApplication):
 
         Returns:
             dict: The JSON response from the PATCH request.
+        Tags:
+            patch, important
         """
         response = httpx.patch(url, json=body, headers=headers)
         return response.json()
@@ -95,5 +103,7 @@ class HttpToolsApp(APIApplication):
     def list_tools(self):
         """
         Lists the available tools (methods) for this application.
+        Tags:
+            list, important
         """
         return [self.http_get, self.http_post, self.http_put, self.http_delete, self.http_patch]
