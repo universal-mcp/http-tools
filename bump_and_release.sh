@@ -2,6 +2,15 @@
 
 set -e
 
+# Ensure test dependencies are installed
+echo "Installing test dependencies..."
+uv pip install pytest
+
+# Run tests with pytest
+echo "Running tests with pytest..."
+pytest
+
+echo "Tests passed!"
 
 # Get the current branch name
 BRANCH=$(git branch --show-current)
@@ -15,7 +24,7 @@ IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
 # Remove any rc suffix from PATCH if it exists
 PATCH_NUM=$(echo $PATCH | sed 's/-rc[0-9]*//')
 
-if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "main" ]; then
+if [ "$BRANCH" = "master" ]; then
     # On main branch - bump patch version
     if [[ $PATCH == *"-rc"* ]]; then
         NEW_VERSION="$MAJOR.$MINOR.$PATCH_NUM"
@@ -86,5 +95,3 @@ if [ "$1" = "release" ]; then
 else
     echo "Skipping release steps"
 fi
-
- 
